@@ -12,24 +12,24 @@ public:
 		Node(T val = T(), Node* left = nullptr, Node* right = nullptr) : data(val),left(nullptr),right(nullptr) {};
 	};
 
-	BinaryTree(T val = nullptr) : root(new Node(val)) {};
+	BinaryTree(T val = T()) : root(new Node(val)) {};
 	~BinaryTree();
-	void insert(T val);
+	void insert(const T& val);
 	bool search(T val);
 
-	void insertRec(T val); //  adapter for insertRec(T val,Node* leaf)
+	void insertRec(const T& val); //  adapter for insertRec(T val,Node* leaf)
 	bool searchRec(T val); //  adapter for searchRec(T val,Node* leaf)
 
 	void destroy(Node* leaf);
 
 private:
-	void insertRec(T val,Node* leaf); // insert recursion implementation 
+	void insertRec(const T& val,Node* leaf); // insert recursion implementation 
 	bool searchRec(T val,Node* leaf); // search recursion implementation 
 	Node* root;
 };
 
 template <class T>
-void BinaryTree<T>::insert(T val) {
+void BinaryTree<T>::insert(const T& val) {
 	if (root == nullptr){
 		root = new Node(val);
 		return;
@@ -75,12 +75,12 @@ bool BinaryTree<T>::search(T val) {
 }
 
 template <class T>
-void BinaryTree<T>::insertRec(T val) {
+void BinaryTree<T>::insertRec(const T& val) {
 	return insertRec(val, root);
 }
 
 template <class T>
-void BinaryTree<T>::insertRec(T val, Node* leaf) {
+void BinaryTree<T>::insertRec(const T& val, Node* leaf) {
 	if (val < leaf->data)
 	{
 		if (leaf->left != nullptr)
@@ -119,18 +119,14 @@ bool BinaryTree<T>::searchRec(T val, Node* leaf) {
 template <class T>
 void BinaryTree<T>::destroy(Node* leaf) {
 	
-	if (leaf != nullptr)
-	{
 		if (leaf->left != nullptr)
 			destroy(leaf->left);
 		if (leaf->right != nullptr)
 			destroy(leaf->right);
 		
 	delete leaf;
+	leaf = nullptr;
 		return;
-	}
-	else return;
-		
 }
 
 template <class T>
